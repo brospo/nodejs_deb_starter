@@ -1,0 +1,14 @@
+# nodejs_starter.log
+/var/log/nodejs_scaffold.log {
+    nodateext
+    compress
+    rotate 25
+    missingok
+    notifempty
+    size 4096k
+    create 640 syslog adm
+    sharedscripts
+    postrotate
+	   restart rsyslog >/dev/null 2>&1 || true
+    endscript
+}

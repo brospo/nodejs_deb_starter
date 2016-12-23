@@ -1,0 +1,24 @@
+{
+  "name": "nodejs_scaffold",
+  "version": "0.0.0-build.0",
+  "description": "nodejs scaffold starter application",
+  "main": "app.js",
+  "scripts": {
+      "start": "node app.js",
+      "mongod": "../mongodb/bin/mongod --dbpath ./data/db",
+      "dev": "nodemon app.js"
+  },
+  "author": "brospo",
+  "license": "MIT",
+  "dependencies": {
+      "winston": "^2.2.0",
+      "winston-syslog": "^1.2.1",
+      "express": "^4.14",
+      "mongodb": "^2.2.15",
+      "mongoose": "^4.7.2",
+      "body-parser": "^1.4.3"
+  },
+  "devDependencies": {
+      "nodemon": "^1.11"
+  }
+}
