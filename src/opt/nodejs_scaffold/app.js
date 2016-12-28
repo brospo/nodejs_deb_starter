@@ -3,13 +3,10 @@ var https      = require('https')
 var fs         = require('fs')
 var bodyParser = require('body-parser')
 
-var mongoose   = require('mongoose')
-var db         = mongoose.connect('mongodb://127.0.0.1/db')
-var Schema     = mongoose.Schema;
-
 // Local imports
-var log        = require('./lib/log.js').winston
-var acvs_const = require('./lib/const.js')
+var log    = require('./lib/log.js')
+var _const = require('./lib/const.js')
+var db     = require('./models/db.js')
 
 // Globals
 var app = express();
@@ -20,28 +17,29 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 // Interrupt handlers
 process.on('SIGTERM', function()
 {
-    log.info('SIGTERM: ' + acvs_const.APP_NAME + ' server shutting down')
+    log.info('SIGTERM: ' + _const.APP_NAME + ' server shutting down')
     process.exit()
 });
 
 process.on('SIGINT', function()
 {
-    log.info('SIGINT: ' + acvs_const.APP_NAME + ' server shutting down')
+    log.info('SIGINT: ' + _const.APP_NAME + ' server shutting down')
     process.exit()
 });
 
 var main = function()
 {
+    log.debug('helloworld')
     var options =
     {
-        key:  fs.readFileSync(acvs_const.HTTPS_KEY),
-        cert: fs.readFileSync(acvs_const.HTTPS_CERT),
+        key:  fs.readFileSync(_const.HTTPS_KEY),
+        cert: fs.readFileSync(_const.HTTPS_CERT),
     }
 
     var server = https.createServer(options, app)
-    .listen(acvs_const.LISTEN_PORT, function()
+    .listen(_const.LISTEN_PORT, function()
     {
-        log.info('Service is listening on port ' + acvs_const.LISTEN_PORT)
+        log.info('Service is listening on port ' + _const.LISTEN_PORT)
         return
     })
 

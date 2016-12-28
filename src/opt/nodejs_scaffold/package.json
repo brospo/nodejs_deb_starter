@@ -6,6 +6,7 @@
   "scripts": {
       "start": "node app.js",
       "mongod": "../mongodb/bin/mongod --dbpath ./data/db",
+      "mongo": "../mongodb/bin/mongo",
       "dev": "nodemon app.js"
   },
   "author": "brospo",
