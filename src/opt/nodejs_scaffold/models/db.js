@@ -2,9 +2,10 @@ var mongoose = require( 'mongoose' )
 var _const   = require('../lib/const.js')
 var log      = require('../lib/log.js')
 
+// Require all models
+require('./person.js')
+
 mongoose.connect(_const.DB_URI)
-
-
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', function () 
@@ -37,3 +38,5 @@ process.on('SIGINT', function()
         process.exit(0); 
     })
 })
+
+module.exports = mongoose

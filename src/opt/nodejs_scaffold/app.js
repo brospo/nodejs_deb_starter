@@ -8,28 +8,30 @@ var log    = require('./lib/log.js')
 var _const = require('./lib/const.js')
 var db     = require('./models/db.js')
 
-// Globals
-var app = express();
+// Express setup
+var app = express()
 app.use(bodyParser.urlencoded({'extended':'true'}))
 app.use(bodyParser.json())
-app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
+
+// Routers
+var api = require('./routes/api.js')
+app.use('/api/', api)
 
 // Interrupt handlers
 process.on('SIGTERM', function()
 {
     log.info('SIGTERM: ' + _const.APP_NAME + ' server shutting down')
     process.exit()
-});
+})
 
 process.on('SIGINT', function()
 {
     log.info('SIGINT: ' + _const.APP_NAME + ' server shutting down')
     process.exit()
-});
+})
 
-var main = function()
+var start_server = function()
 {
-    log.debug('helloworld')
     var options =
     {
         key:  fs.readFileSync(_const.HTTPS_KEY),
@@ -48,5 +50,4 @@ var main = function()
         log.info(err)
     })
 
-
-}; main();
+}; start_server();
