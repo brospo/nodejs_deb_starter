@@ -25,18 +25,21 @@ router.get('/hello', function(req, res)
         }
         res.status(201)
         res.send('Hello: ' + list_of_names)
+        log.info('Greeted ' + String(people_list.length) + ' people')
     })
-})
+}) 
 
 router.get('/hello/:name', function(req, res)
 {
     person.findOne({ name: req.params.name }, function(err, found_person)
     {
-        if(found_person)
+        if (found_person)
         {
+            log.info('Found person ' + found_person.name)
             var msg = found_person.message
             if(found_person.age)
             {
+                log.info('Found person ' + found_person.name + ' age: ' + String(found_person.age))
                 msg += ' - they are ' + String(found_person.age) + ' years old!'
             }
             
@@ -46,21 +49,21 @@ router.get('/hello/:name', function(req, res)
         {
             res.status(404)
             res.send('Sorry, I could not find a person with the name: ' + req.params.name)
+            log.error('Could not find person with name ' + req.params.name)
         }
     })
 })
 
 router.post('/person/:name', function(req, res)
 {
-    // Look if someone already exists
     person.findOne({ name: req.params.name }, function(err, found_person)
     {
         if (found_person)
         {
-            var msg = "Person with that name already exists!" 
-            log.info(msg)
+            
+            log.error('Person with name ' + req.params.name + ' already exists, cannot create a new one.')
             res.status(409)
-            res.send(msg)
+            res.send('Person with that name already exists!')
         } else
         {
             log.info('Creating new person with the name: ' + req.params.name)
@@ -71,6 +74,7 @@ router.post('/person/:name', function(req, res)
                 message: req.query.message,
                 age:     req.query.age
             })
+            
             new_person.save(function(err)
             {
                 if (err)
@@ -84,19 +88,71 @@ router.post('/person/:name', function(req, res)
     })
 })
 
+router.put('/person/:name', function(req, res)
+{
+    if (!req.query.message)
+    {
+        log.error('Must specify message in query for editing person')
+        res.status(400)
+        res.send('Must specify message')
+        return
+    }
+
+    if (!req.query.name)
+    {
+        log.error('Must specify name in query for editing person')
+        res.status(400)
+        res.send('Must specify name in query')
+        return
+    }
+
+    var person_data = 
+    {
+        name: req.query.name,
+        message: req.query.message,
+    }
+    if (req.query.age)
+    {
+        log.info('Using age in put request for name ' + req.params.name)
+        person_data.age = req.query.age
+    }
+
+    person.findOneAndUpdate({ name: req.params.name }, person_data, function(err, doc)
+    {
+        if (err)
+        {
+            res.status(500)
+            res.send('Error updating person')
+            log.error('Error occured when updating person ' + req.params.name + ' ' + err)
+            return
+        }
+
+        if(!doc)
+        {
+            res.sendStatus(404)
+            return
+        }
+        
+        log.info('Succefully updated entry for person: ' + req.params.name)
+        res.sendStatus(200)
+    })
+    
+})
 
 router.delete('/person/:name', function(req, res)
 {
     person.remove({ name: req.params.name }, function(err)
     {
-        if(!err)
+        if (!err)
         {
             res.sendStatus(200)
+            log.info('Person with name ' + req.params.name + ' was deleted')
         } else
         {
-            log.error(err)
+            log.error('Error deleting person' + err)
             res.sendStatus(500)
         }
     })
 })
+
 module.exports = router
