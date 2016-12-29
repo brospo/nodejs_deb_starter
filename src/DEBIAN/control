@@ -1,7 +1,7 @@
-Package: nodejs-scaffold
+Package: nodejs-deb-starter
 Maintainer: brospo
 Version: 0.0.0.0
 Architecture: amd64
 Pre-Depends: nodejs (>=6.9.2)
-Description: Scaffold application for ME(!a)N
-  Scaffold application starter for a simple ME(!a)N api server
+Description: Starter application for ME(!a)N
+  Starter application starter for a simple ME(!a)N api server in a debian Package

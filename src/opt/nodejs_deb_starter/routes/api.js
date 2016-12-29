@@ -111,6 +111,7 @@ router.put('/person/:name', function(req, res)
         name: req.query.name,
         message: req.query.message,
     }
+
     if (req.query.age)
     {
         log.info('Using age in put request for name ' + req.params.name)
@@ -129,6 +130,7 @@ router.put('/person/:name', function(req, res)
 
         if(!doc)
         {
+            log.error('Could not find person with name ' + req.params.name)
             res.sendStatus(404)
             return
         }

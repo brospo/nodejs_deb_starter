@@ -1,5 +1,5 @@
-# nodejs_starter.log
-/var/log/nodejs_scaffold.log {
+# nodejs_deb_starter.log
+/var/log/nodejs_deb_starter.log {
     nodateext
     compress
     rotate 25

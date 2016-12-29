@@ -1,5 +1,5 @@
 {
-  "name": "nodejs_scaffold",
+  "name": "nodejs_deb_starter",
   "version": "0.0.0-build.0",
   "description": "nodejs scaffold starter application",
   "main": "app.js",

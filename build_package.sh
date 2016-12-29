@@ -29,7 +29,7 @@ fi
 
 CHECKOUT_DIR=$(dirname $0)
 SOURCE_DIR=$CHECKOUT_DIR/src
-APP_NAME='nodejs_scaffold'
+APP_NAME='nodejs_deb_starter'
 VERSION=$(cat ${CHECKOUT_DIR}/version.txt)
 ARCH=$(uname -m)
 PACKAGE_NAME=${APP_NAME}_${VERSION}.${BUILD_VERSION}_${ARCH}.deb

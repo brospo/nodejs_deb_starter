@@ -8,7 +8,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 CHECKOUT_DIR=$(dirname $0)
-APP_NAME=nodejs_scaffold
+APP_NAME=nodejs_deb_starter
 
 echo "Installing build-essential package for G++ compiler."
 sudo apt-get install -y --force-yes build-essential

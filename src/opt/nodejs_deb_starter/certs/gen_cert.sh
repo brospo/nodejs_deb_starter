@@ -16,7 +16,7 @@ echo -n 'External Address []: '; read common_name
 echo -n 'Email Address []: '; read email
 
 # Create private.pem and offcorp_acvs_web.csr
-openssl req -new -newkey rsa:2048 -keyout private.pem -nodes -sha256 -out ./nodejs_scaffold.csr -subj "/C=$country/ST=$state/L=$city/O=$company/OU=$section/CN=$common_name/emailAddress=$email" -config <(
+openssl req -new -newkey rsa:2048 -keyout private.pem -nodes -sha256 -out ./nodejs_deb_starter.csr -subj "/C=$country/ST=$state/L=$city/O=$company/OU=$section/CN=$common_name/emailAddress=$email" -config <(
 cat <<-EOF
 [req]
 default_bits = 2048
@@ -34,12 +34,12 @@ EOF
 )
 
 # Print the contents of the cert
-echo "Certificate Signing request nodejs_scaffold.csr generated!"
-# openssl req -text -noout -verify -in ./nodejs_scaffold.csr
+echo "Certificate Signing request nodejs_deb_starter.csr generated!"
+# openssl req -text -noout -verify -in ./nodejs_deb_starter.csr
 
 read -p "Do you want to self-sign this certificate? [y/N] " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    openssl x509 -req -days 365 -in ./nodejs_scaffold.csr -signkey ./private.pem -out ./nodejs_scaffold.pem
+    openssl x509 -req -days 365 -in ./nodejs_deb_starter.csr -signkey ./private.pem -out ./nodejs_deb_starter.pem
 fi
