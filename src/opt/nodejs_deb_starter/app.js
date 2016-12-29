@@ -32,12 +32,20 @@ process.on('SIGINT', function()
 
 var start_server = function()
 {
-
-    var options =
+    try
     {
-        key:  fs.readFileSync(_const.HTTPS_KEY),
-        cert: fs.readFileSync(_const.HTTPS_CERT),
+        var options =
+        {
+            key:  fs.readFileSync(_const.HTTPS_KEY),
+            cert: fs.readFileSync(_const.HTTPS_CERT),
+        }
+    } catch (err)
+    {
+        log.error('Error loading certs: ' + err)
+        setTimeout(start_server, _const.CONNECTION_RETRY)
+        return
     }
+    
 
     var server = https.createServer(options, app)
     .listen(_const.LISTEN_PORT, function()
